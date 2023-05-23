@@ -44,7 +44,10 @@ namespace NetworkMapperForms
         }
 
         private bool _stopCapturing;
-        public void capturePackets(ILiveDevice device, StringOutputType selectedOutputType, Func<string, string> output) { 
+        public void capturePackets(ILiveDevice device, StringOutputType selectedOutputType, Func<string, string> output) {
+
+            // Allow the while loop to be entered when capturePackets is first called
+            _stopCapturing = false;
             
             // Console.CancelKeyPress += HandleCancelKeyPress;
 

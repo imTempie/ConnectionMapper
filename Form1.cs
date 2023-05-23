@@ -47,15 +47,15 @@ namespace NetworkMapperForms
                 i++;
             }
         }
-        bool capturing;
         private void capturePacketsBtn_Click(object sender, EventArgs e)
         {
+            backgroundWorker1.CancelAsync();
+
             if (captureDevice.SelectedIndex < 0)
             {
                 return;
             }
 
-            capturing = true;
             var devices = CaptureDeviceList.Instance;
             var deviceIndex = captureDevice.SelectedIndex;
             _device = devices[deviceIndex];
@@ -154,6 +154,8 @@ namespace NetworkMapperForms
                 GMarkerGoogleType.blue_pushpin);
             markers.Markers.Add(marker);
             gmap.Overlays.Add(markers);
+            marker.Tag = externalIpString;
+
         }
 
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
