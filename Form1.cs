@@ -21,6 +21,7 @@ namespace NetworkMapperForms
 
     public partial class Form1 : Form
     {
+        static string clickedIPAddress;
         private static PCap pcap = new PCap();
         private static ILiveDevice? _device;
 
@@ -45,11 +46,15 @@ namespace NetworkMapperForms
                 captureDevice.Items.Add($"{i} {dev.Description}");
                 i++;
             }
-
         }
         bool capturing;
         private void capturePacketsBtn_Click(object sender, EventArgs e)
         {
+            if (captureDevice.SelectedIndex < 0)
+            {
+                return;
+            }
+
             capturing = true;
             var devices = CaptureDeviceList.Instance;
             var deviceIndex = captureDevice.SelectedIndex;
@@ -57,7 +62,6 @@ namespace NetworkMapperForms
             resultBox.Text += $"{_device.Description}";
 
             backgroundWorker1.RunWorkerAsync();
-
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -136,19 +140,9 @@ namespace NetworkMapperForms
             gmap.Zoom = 1;
             var ipv4Geo = new IP2Location.Component();
             ipv4Geo.Open(@".\db\IP2LOCATION-LITE-DB5.BIN\IP2LOCATION-LITE-DB5.BIN");
-            //var ipv6Geo = new IP2Location.Component();
-            //ipv4Geo.Open(@".\db\IP2LOCATION-LITE-DB5.IPV6.BIN\IP2LOCATION-LITE-DB5.IPV6.BIN");
 
             // Get external ip
-            string url = "http://checkip.dyndns.org";
-            System.Net.WebRequest req = System.Net.WebRequest.Create(url);
-            System.Net.WebResponse resp = req.GetResponse();
-            System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
-            string response = sr.ReadToEnd().Trim();
-            string[] a = response.Split(':');
-            string a2 = a[1].Substring(1);
-            string[] a3 = a2.Split('<');
-            string externalIpString = a3[0];
+            string externalIpString = PCap.GetExtIp();
 
             // Get local lat/long with external ip
             var localGeoResult = ipv4Geo.IPQuery(externalIpString.ToString());
@@ -160,53 +154,16 @@ namespace NetworkMapperForms
                 GMarkerGoogleType.blue_pushpin);
             markers.Markers.Add(marker);
             gmap.Overlays.Add(markers);
-
-
         }
-
-        //private void DrawMarkers()
-        //{
-
-        //    while (capturing)
-        //    {
-        //        foreach (var key in State.OutboundConnections.Keys)
-        //        {
-
-        //            var outbound = State.OutboundConnections[key];
-
-        //            GMapOverlay outboundMarkers = new GMapOverlay("outboundMarkers");
-        //            GMapMarker outboundMarker = new GMarkerGoogle(
-        //                new PointLatLng(float.Parse(outbound.Lat), float.Parse(outbound.Long)),
-        //                GMarkerGoogleType.red_pushpin);
-        //            outboundMarkers.Markers.Add(outboundMarker);
-        //            gmap.Overlays.Add(outboundMarkers);
-        //        }
-        //        foreach (var key in State.InboundConnections.Keys)
-        //        {
-        //            var inbound = State.InboundConnections[key];
-
-        //            GMapOverlay inboundMarkers = new GMapOverlay("outboundMarkers");
-        //            GMapMarker inboundMarker = new GMarkerGoogle(
-        //                new PointLatLng(float.Parse(inbound.Lat), float.Parse(inbound.Long)),
-        //                GMarkerGoogleType.red_pushpin);
-        //            inboundMarkers.Markers.Add(inboundMarker);
-        //            gmap.Overlays.Add(inboundMarkers);
-        //        }
-        //    }
-        //}
 
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            //capturing = true;
-            //var devices = CaptureDeviceList.Instance;
-            //var deviceIndex = captureDevice.SelectedIndex;
-            //_device = devices[deviceIndex];
-            //resultBox.Text += $"{_device.Description}";
-
-            int ii = 0;
             pcap.capturePackets(_device, StringOutputType.Normal,
                 (output) =>
                 {
+                    // Perform the long-running task here
+
+                    // Update UI on the UI thread
                     resultBox.Invoke((MethodInvoker)delegate
                     {
                         // This code will run on the UI thread
@@ -214,6 +171,8 @@ namespace NetworkMapperForms
                         resultBox.AppendText(Environment.NewLine);
                         this.Refresh();
                     });
+
+                    // Add outbound markers on the UI thread
                     foreach (var key in State.OutboundConnections.Keys)
                     {
                         if (State.OutboundConnections[key].Marked == false)
@@ -223,11 +182,42 @@ namespace NetworkMapperForms
                             GMapMarker outboundMarker = new GMarkerGoogle(
                                 new PointLatLng(float.Parse(outbound.Lat), float.Parse(outbound.Long)),
                                 GMarkerGoogleType.red_pushpin);
-                            gmap.Overlays.Add(outboundMarkers);
-                            outboundMarkers.Markers.Add(outboundMarker);
+
+                            outboundMarker.Tag = key;
+
+                            gmap.Invoke((MethodInvoker)delegate
+                            {
+                                // This code will run on the UI thread
+                                gmap.Overlays.Add(outboundMarkers);
+                                outboundMarkers.Markers.Add(outboundMarker);
+                            });
+
+                            // Attach a click event handler to the map control for marker click events
+                            gmap.Invoke((MethodInvoker)delegate
+                            {
+                                gmap.OnMarkerClick += (marker, eventArgs) =>
+                                {
+                                    GMapMarker clickedMarker = marker;
+                                    if (clickedMarker != null)
+                                    {
+                                        // Store the clicked ip address
+                                        clickedIPAddress = clickedMarker.Tag.ToString();
+
+                                        SelectedIp.Invoke((MethodInvoker)delegate
+                                        {
+                                            // Set the label3 text to the selected ip
+                                            SelectedIp.Text = "Selected IP: " + clickedIPAddress;
+                                        });
+                                    }
+                                };
+                            });
+
+
                             State.OutboundConnections[key].Marked = true;
                         }
                     }
+
+                    // Add inbound markers on the UI thread
                     foreach (var key in State.InboundConnections.Keys)
                     {
                         if (State.InboundConnections[key].Marked == false)
@@ -237,49 +227,61 @@ namespace NetworkMapperForms
                             GMapMarker inboundMarker = new GMarkerGoogle(
                                 new PointLatLng(float.Parse(inbound.Lat), float.Parse(inbound.Long)),
                                 GMarkerGoogleType.green_pushpin);
-                            gmap.Overlays.Add(inboundMarkers);
-                            inboundMarkers.Markers.Add(inboundMarker);
+
+                            inboundMarker.Tag = key;
+
+                            gmap.Invoke((MethodInvoker)delegate
+                            {
+                                // This code will run on the UI thread
+                                gmap.Overlays.Add(inboundMarkers);
+                                inboundMarkers.Markers.Add(inboundMarker);
+                            });
+
+                            // Attach a click event handler to the map control for marker click events
+                            gmap.Invoke((MethodInvoker)delegate
+                            {
+                                gmap.OnMarkerClick += (marker, eventArgs) =>
+                                {
+                                    GMapMarker clickedMarker = marker;
+                                    if (clickedMarker != null)
+                                    {
+                                        // Store the clicked ip address
+                                        clickedIPAddress = clickedMarker.Tag.ToString();
+
+                                        SelectedIp.Invoke((MethodInvoker)delegate
+                                        {
+                                            // Set the label3 text to the selected ip
+                                            SelectedIp.Text = "Selected IP: " + clickedIPAddress;
+                                        });
+                                    }
+                                };
+                            });
+
                             State.InboundConnections[key].Marked = true;
                         }
                     }
-                    if (ii++ == 100)
-                    {
-                        pcap.stopCapturing();
-                        capturing = false;
-                    }
                     return "";
                 });
-
-
         }
-        //public void displayInfo()
-        //{
-        //    capturing = true;
-        //    var devices = CaptureDeviceList.Instance;
-        //    var deviceIndex = captureDevice.SelectedIndex;
-        //    _device = devices[deviceIndex];
-        //    resultBox.Text += $"{_device.Description}";
-        //    int ii = 0;
-        //    pcap.capturePackets(_device, StringOutputType.Normal,
-        //        (output) =>
-        //        {
-        //            resultBox.AppendText(output + Environment.NewLine);
-        //            resultBox.AppendText(Environment.NewLine);
-        //            this.Refresh();
-        //            if (ii++ == 100)
-        //            {
-        //                pcap.stopCapturing();
-        //                capturing = false;
-        //            }
-        //            return "";
-        //        });
-
-        //    DrawMarkers();
-        //}
 
         private void label2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BlockButton_Click(object sender, EventArgs e)
+        {
+            // Add method to block clickedIpAddress
+        }
+
+        private void UnblockButton_Click(object sender, EventArgs e)
+        {
+            // Add method to unblock all blocked Ip Addresses
         }
     }
 }

@@ -29,6 +29,20 @@ namespace NetworkMapperForms
     public class PCap
     {
         // Used to stop the capture loop
+        public static String GetExtIp()
+        {
+            string url = "http://checkip.dyndns.org";
+            System.Net.WebRequest req = System.Net.WebRequest.Create(url);
+            System.Net.WebResponse resp = req.GetResponse();
+            System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
+            string response = sr.ReadToEnd().Trim();
+            string[] a = response.Split(':');
+            string a2 = a[1].Substring(1);
+            string[] a3 = a2.Split('<');
+            string externalIpString = a3[0];
+            return externalIpString;
+        }
+
         private bool _stopCapturing;
         public void capturePackets(ILiveDevice device, StringOutputType selectedOutputType, Func<string, string> output) { 
             
@@ -52,16 +66,7 @@ namespace NetworkMapperForms
             output("IP database loaded!");
 
             // Get external ip
-            string url = "http://checkip.dyndns.org";
-            System.Net.WebRequest req = System.Net.WebRequest.Create(url);
-            System.Net.WebResponse resp = req.GetResponse();
-            System.IO.StreamReader sr = new System.IO.StreamReader(resp.GetResponseStream());
-            string response = sr.ReadToEnd().Trim();
-            string[] a = response.Split(':');
-            string a2 = a[1].Substring(1);
-            string[] a3 = a2.Split('<');
-            string externalIpString = a3[0];
-            output($"Public IP: {externalIpString}");
+            var externalIpString = GetExtIp();
 
             // Get local lat/long with external ip
             var localGeoResult = ipv4Geo.IPQuery(externalIpString.ToString());
