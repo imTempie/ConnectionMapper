@@ -283,6 +283,20 @@ namespace NetworkMapperForms
         {
             outboundMarkers.Clear();
             inboundMarkers.Clear();
+
+            foreach (var key in State.InboundConnections.Keys)
+            {
+                State.InboundConnections[key].Marked = false;
+                //if (State.InboundConnections[key].LastSeen > DateTime.Now.AddSeconds(-5))
+                //{
+
+                //}
+            }
+            foreach (var key in State.OutboundConnections.Keys)
+            {
+                State.OutboundConnections[key].Marked = false;
+
+            }
         }
 
         private void button1_Click_2(object sender, EventArgs e)
