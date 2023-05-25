@@ -81,8 +81,6 @@ C:\Users\harle\Desktop\NetworkMapperForms\NetworkMapperForms\bin\Debug\net6.0-wi
 C:\Users\harle\Desktop\NetworkMapperForms\NetworkMapperForms\bin\Debug\net6.0-windows\GMap.NET.Core.dll
 C:\Users\harle\Desktop\NetworkMapperForms\NetworkMapperForms\bin\Debug\net6.0-windows\GMap.NET.WindowsForms.dll
 C:\Users\harle\Desktop\NetworkMapperForms\NetworkMapperForms\bin\Debug\net6.0-windows\IP2Location.dll
-C:\Users\harle\Desktop\NetworkMapperForms\NetworkMapperForms\bin\Debug\net6.0-windows\Microsoft.Maui.Controls.Maps.dll
-C:\Users\harle\Desktop\NetworkMapperForms\NetworkMapperForms\bin\Debug\net6.0-windows\Microsoft.Maui.Maps.dll
 C:\Users\harle\Desktop\NetworkMapperForms\NetworkMapperForms\bin\Debug\net6.0-windows\Newtonsoft.Json.dll
 C:\Users\harle\Desktop\NetworkMapperForms\NetworkMapperForms\bin\Debug\net6.0-windows\PacketDotNet.dll
 C:\Users\harle\Desktop\NetworkMapperForms\NetworkMapperForms\bin\Debug\net6.0-windows\SharpPcap.dll

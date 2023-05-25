@@ -105,35 +105,6 @@
           "lib/netcoreapp2.0/_._": {}
         }
       },
-      "Microsoft.Maui.Controls.Maps/7.0.81": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Maui.Maps": "7.0.81"
-        },
-        "compile": {
-          "lib/netstandard2.1/Microsoft.Maui.Controls.Maps.dll": {
-            "related": ".pdb;.xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.1/Microsoft.Maui.Controls.Maps.dll": {
-            "related": ".pdb;.xml"
-          }
-        }
-      },
-      "Microsoft.Maui.Maps/7.0.81": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.1/Microsoft.Maui.Maps.dll": {
-            "related": ".pdb;.xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.1/Microsoft.Maui.Maps.dll": {
-            "related": ".pdb;.xml"
-          }
-        }
-      },
       "Microsoft.NETCore.Platforms/3.1.0": {
         "type": "package",
         "compile": {
@@ -797,88 +768,6 @@
         "ref/xamarinwatchos10/_._",
         "useSharedDesignerContext.txt",
         "version.txt"
-      ]
-    },
-    "Microsoft.Maui.Controls.Maps/7.0.81": {
-      "sha512": "BLTnxgf7ciOtW8FkgFOIpeCek8p/WtCutgMmOHr58P9FFN9YnKd5LSIPnSHDIQQQg4LgBUIlsMht9Ln5lexHsQ==",
-      "type": "package",
-      "path": "microsoft.maui.controls.maps/7.0.81",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE.TXT",
-        "THIRD-PARTY-NOTICES.TXT",
-        "lib/net7.0-android33.0/Microsoft.Maui.Controls.Maps.aar",
-        "lib/net7.0-android33.0/Microsoft.Maui.Controls.Maps.dll",
-        "lib/net7.0-android33.0/Microsoft.Maui.Controls.Maps.pdb",
-        "lib/net7.0-android33.0/Microsoft.Maui.Controls.Maps.xml",
-        "lib/net7.0-ios16.1/Microsoft.Maui.Controls.Maps.dll",
-        "lib/net7.0-ios16.1/Microsoft.Maui.Controls.Maps.pdb",
-        "lib/net7.0-ios16.1/Microsoft.Maui.Controls.Maps.xml",
-        "lib/net7.0-maccatalyst16.1/Microsoft.Maui.Controls.Maps.dll",
-        "lib/net7.0-maccatalyst16.1/Microsoft.Maui.Controls.Maps.pdb",
-        "lib/net7.0-maccatalyst16.1/Microsoft.Maui.Controls.Maps.xml",
-        "lib/net7.0-tizen7.0/Microsoft.Maui.Controls.Maps.dll",
-        "lib/net7.0-tizen7.0/Microsoft.Maui.Controls.Maps.pdb",
-        "lib/net7.0-tizen7.0/Microsoft.Maui.Controls.Maps.xml",
-        "lib/net7.0-windows10.0.19041/Microsoft.Maui.Controls.Maps.dll",
-        "lib/net7.0-windows10.0.19041/Microsoft.Maui.Controls.Maps.pdb",
-        "lib/net7.0-windows10.0.19041/Microsoft.Maui.Controls.Maps.xml",
-        "lib/net7.0-windows10.0.20348/Microsoft.Maui.Controls.Maps.dll",
-        "lib/net7.0-windows10.0.20348/Microsoft.Maui.Controls.Maps.pdb",
-        "lib/net7.0-windows10.0.20348/Microsoft.Maui.Controls.Maps.xml",
-        "lib/net7.0/Microsoft.Maui.Controls.Maps.dll",
-        "lib/net7.0/Microsoft.Maui.Controls.Maps.pdb",
-        "lib/net7.0/Microsoft.Maui.Controls.Maps.xml",
-        "lib/netstandard2.0/Microsoft.Maui.Controls.Maps.dll",
-        "lib/netstandard2.0/Microsoft.Maui.Controls.Maps.pdb",
-        "lib/netstandard2.0/Microsoft.Maui.Controls.Maps.xml",
-        "lib/netstandard2.1/Microsoft.Maui.Controls.Maps.dll",
-        "lib/netstandard2.1/Microsoft.Maui.Controls.Maps.pdb",
-        "lib/netstandard2.1/Microsoft.Maui.Controls.Maps.xml",
-        "microsoft.maui.controls.maps.7.0.81.nupkg.sha512",
-        "microsoft.maui.controls.maps.nuspec"
-      ]
-    },
-    "Microsoft.Maui.Maps/7.0.81": {
-      "sha512": "satGhXDrYGym5fkhAZC1JPIjRojuBvnz+ba/6Sd+4TeZ6/j4BZDSxvv5jzha6+BR5yQ/5+t9yWMvNuqCYc+V7w==",
-      "type": "package",
-      "path": "microsoft.maui.maps/7.0.81",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE.TXT",
-        "THIRD-PARTY-NOTICES.TXT",
-        "lib/net7.0-android33.0/Microsoft.Maui.Maps.aar",
-        "lib/net7.0-android33.0/Microsoft.Maui.Maps.dll",
-        "lib/net7.0-android33.0/Microsoft.Maui.Maps.pdb",
-        "lib/net7.0-android33.0/Microsoft.Maui.Maps.xml",
-        "lib/net7.0-ios16.1/Microsoft.Maui.Maps.dll",
-        "lib/net7.0-ios16.1/Microsoft.Maui.Maps.pdb",
-        "lib/net7.0-ios16.1/Microsoft.Maui.Maps.xml",
-        "lib/net7.0-maccatalyst16.1/Microsoft.Maui.Maps.dll",
-        "lib/net7.0-maccatalyst16.1/Microsoft.Maui.Maps.pdb",
-        "lib/net7.0-maccatalyst16.1/Microsoft.Maui.Maps.xml",
-        "lib/net7.0-tizen7.0/Microsoft.Maui.Maps.dll",
-        "lib/net7.0-tizen7.0/Microsoft.Maui.Maps.pdb",
-        "lib/net7.0-tizen7.0/Microsoft.Maui.Maps.xml",
-        "lib/net7.0-windows10.0.19041/Microsoft.Maui.Maps.dll",
-        "lib/net7.0-windows10.0.19041/Microsoft.Maui.Maps.pdb",
-        "lib/net7.0-windows10.0.19041/Microsoft.Maui.Maps.xml",
-        "lib/net7.0-windows10.0.20348/Microsoft.Maui.Maps.dll",
-        "lib/net7.0-windows10.0.20348/Microsoft.Maui.Maps.pdb",
-        "lib/net7.0-windows10.0.20348/Microsoft.Maui.Maps.xml",
-        "lib/net7.0/Microsoft.Maui.Maps.dll",
-        "lib/net7.0/Microsoft.Maui.Maps.pdb",
-        "lib/net7.0/Microsoft.Maui.Maps.xml",
-        "lib/netstandard2.0/Microsoft.Maui.Maps.dll",
-        "lib/netstandard2.0/Microsoft.Maui.Maps.pdb",
-        "lib/netstandard2.0/Microsoft.Maui.Maps.xml",
-        "lib/netstandard2.1/Microsoft.Maui.Maps.dll",
-        "lib/netstandard2.1/Microsoft.Maui.Maps.pdb",
-        "lib/netstandard2.1/Microsoft.Maui.Maps.xml",
-        "microsoft.maui.maps.7.0.81.nupkg.sha512",
-        "microsoft.maui.maps.nuspec"
       ]
     },
     "Microsoft.NETCore.Platforms/3.1.0": {
@@ -1719,13 +1608,13 @@
     "net6.0-windows7.0": [
       "GMap.NET.WinForms >= 2.1.7",
       "IP2Location.IPGeolocation >= 8.11.0",
-      "Microsoft.Maui.Controls.Maps >= 7.0.81",
       "PacketDotNet >= 1.4.7",
       "SharpPcap >= 6.2.1"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\harle\\.nuget\\packages\\": {}
+    "C:\\Users\\harle\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
@@ -1736,8 +1625,12 @@
       "packagesPath": "C:\\Users\\harle\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\harle\\Desktop\\NetworkMapperForms\\NetworkMapperForms\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
         "C:\\Users\\harle\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1745,6 +1638,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1770,10 +1664,6 @@
           "IP2Location.IPGeolocation": {
             "target": "Package",
             "version": "[8.11.0, )"
-          },
-          "Microsoft.Maui.Controls.Maps": {
-            "target": "Package",
-            "version": "[7.0.81, )"
           },
           "PacketDotNet": {
             "target": "Package",
@@ -1803,7 +1693,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }

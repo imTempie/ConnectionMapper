@@ -1,21 +1,6 @@
-﻿using System;
+﻿using IP2Location;
 using PacketDotNet;
 using SharpPcap;
-using IP2Location;
-using System.Net;
-using System.Threading.Tasks;
-using System.Net.Http;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
-using System.Security.Cryptography.X509Certificates;
-using GMap.NET.WindowsForms.ToolTips;
-using GMap.NET.WindowsForms;
-using GMap.NET;
-using Microsoft.Maui.Controls.Maps;
-using System.Xml.Linq;
-using Microsoft.Maui.Maps;
-using GMap.NET.WindowsForms.Markers;
-using System.Collections.Generic;
-using System.Collections;
 
 namespace NetworkMapperForms
 
@@ -44,11 +29,12 @@ namespace NetworkMapperForms
         }
 
         private bool _stopCapturing;
-        public void capturePackets(ILiveDevice device, StringOutputType selectedOutputType, Func<string, string> output) {
+        public void capturePackets(ILiveDevice device, StringOutputType selectedOutputType, Func<string, string> output)
+        {
 
             // Allow the while loop to be entered when capturePackets is first called
             _stopCapturing = false;
-            
+
             // Console.CancelKeyPress += HandleCancelKeyPress;
 
             // Open the device for packet capturing
@@ -59,13 +45,13 @@ namespace NetworkMapperForms
             output($"-- Listening on {device.Description}...");
 
             output("Loading IP database...");
-            
+
             var ipv4Geo = new IP2Location.Component();
             ipv4Geo.Open(@".\db\IP2LOCATION-LITE-DB5.BIN\IP2LOCATION-LITE-DB5.BIN");
 
             var ipv6Geo = new IP2Location.Component();
             ipv6Geo.Open(@".\db\IP2LOCATION-LITE-DB5.IPV6.BIN\IP2LOCATION-LITE-DB5.IPV6.BIN");
-            
+
             output("IP database loaded!");
 
             // Get external ip
@@ -74,7 +60,7 @@ namespace NetworkMapperForms
             // Get local lat/long with external ip
             var localGeoResult = ipv4Geo.IPQuery(externalIpString.ToString());
             // IP2Location.IPResult localGeoResult = new IPResult();
-            
+
             var sourceLat = new float();
             var sourceLong = new float();
             var destinationLat = new float();
@@ -131,14 +117,14 @@ namespace NetworkMapperForms
 
                     sourceLat = sourceResult.Latitude;
                     sourceLong = sourceResult.Longitude;
-                    
+
                     destinationLat = destinationResult.Latitude;
                     destinationLong = destinationResult.Longitude;
 
                     // Adding inbound and outbound connections to dictionary
                     var sourceIpAddress = ipPacket.SourceAddress.ToString();
                     var destinationIpAddress = ipPacket.DestinationAddress.ToString();
-                    if(sourceIpAddress == externalIpString || sourceLocal)
+                    if (sourceIpAddress == externalIpString || sourceLocal)
                     {
                         // If the dictionary doesnt contain the key
                         if (!State.OutboundConnections.ContainsKey(destinationIpAddress))
@@ -150,12 +136,14 @@ namespace NetworkMapperForms
                                 Long = destinationLong.ToString(),
                                 LastSeen = DateTime.Now
                             });
-                        } else if (State.OutboundConnections.ContainsKey(destinationIpAddress))
+                        }
+                        else if (State.OutboundConnections.ContainsKey(destinationIpAddress))
                         {
                             // If the ip is already in the dictionary, update last seen time
                             State.OutboundConnections[destinationIpAddress].LastSeen = DateTime.Now;
                         }
-                    } else if (destinationIpAddress == externalIpString || destinationLocal)
+                    }
+                    else if (destinationIpAddress == externalIpString || destinationLocal)
                     {
                         // If the dictionary doesnt contain the key 
                         if (!State.InboundConnections.ContainsKey(sourceIpAddress))
@@ -168,12 +156,14 @@ namespace NetworkMapperForms
                                 LastSeen = DateTime.Now
                             });
 
-                        } else if (State.InboundConnections.ContainsKey(sourceIpAddress))
+                        }
+                        else if (State.InboundConnections.ContainsKey(sourceIpAddress))
                         {
                             // If the ip is already in the dictionary, update last seen time
                             State.InboundConnections[sourceIpAddress].LastSeen = DateTime.Now;
                         }
-                    } else
+                    }
+                    else
                     {
                         continue;
                     }
@@ -224,7 +214,8 @@ namespace NetworkMapperForms
                                 LastSeen = DateTime.Now
                             });
 
-                        } else if(State.OutboundConnections.ContainsKey(destinationIpAddress))
+                        }
+                        else if (State.OutboundConnections.ContainsKey(destinationIpAddress))
                         {
                             // If the ip is already in the dictionary, update last seen time
                             State.OutboundConnections[destinationIpAddress].LastSeen = DateTime.Now;
@@ -243,7 +234,8 @@ namespace NetworkMapperForms
                                 LastSeen = DateTime.Now
                             });
 
-                        } else if(State.InboundConnections.ContainsKey(sourceIpAddress))
+                        }
+                        else if (State.InboundConnections.ContainsKey(sourceIpAddress))
                         {
                             // If the ip is already in the dictionary, update last seen time
                             State.InboundConnections[sourceIpAddress].LastSeen = DateTime.Now;
@@ -259,17 +251,18 @@ namespace NetworkMapperForms
                 // So we change it to the localGeoResult, checking both source and destination coordinates.
                 if (sourceResult.Latitude == 0 && sourceResult.Longitude == 0)
                 {
-                    sourceResult=localGeoResult;
+                    sourceResult = localGeoResult;
                 }
                 if (destinationResult.Latitude == 0 && destinationResult.Longitude == 0)
                 {
-                    destinationResult=localGeoResult;
+                    destinationResult = localGeoResult;
                 }
                 // Write the packet info to the console
                 if (sourceResult != destinationResult)
                 {
                     output(p.ToString(selectedOutputType));
-                } else
+                }
+                else
                 {
                     continue;
                 }
@@ -282,7 +275,7 @@ namespace NetworkMapperForms
             // Close the pcap device
             device.Close();
         }
-        
+
         public void stopCapturing()
         {
             _stopCapturing = true;

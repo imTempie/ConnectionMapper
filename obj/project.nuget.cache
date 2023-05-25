@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "LOznUI8thqhj6JqqfhL2L3PuClGRBZ91DYedBOSwv3/yDyWdMQ/m/Y6G+Y2JbG9nsTVl9+ES9lml5COkQsk9sg==",
+  "dgSpecHash": "h4tEwp79ipdcUgzehcnvGdsUjlMzKvuf0/tajEy5YigIJl5VubAbxodY58xv3JTXf0Nw6XTp+sXLo8vIi+PM7w==",
   "success": true,
   "projectFilePath": "C:\\Users\\harle\\Desktop\\NetworkMapperForms\\NetworkMapperForms\\NetworkMapperForms.csproj",
   "expectedPackageFiles": [
@@ -10,8 +10,6 @@
     "C:\\Users\\harle\\.nuget\\packages\\gmap.net.winforms\\2.1.7\\gmap.net.winforms.2.1.7.nupkg.sha512",
     "C:\\Users\\harle\\.nuget\\packages\\ip2location.ipgeolocation\\8.11.0\\ip2location.ipgeolocation.8.11.0.nupkg.sha512",
     "C:\\Users\\harle\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
-    "C:\\Users\\harle\\.nuget\\packages\\microsoft.maui.controls.maps\\7.0.81\\microsoft.maui.controls.maps.7.0.81.nupkg.sha512",
-    "C:\\Users\\harle\\.nuget\\packages\\microsoft.maui.maps\\7.0.81\\microsoft.maui.maps.7.0.81.nupkg.sha512",
     "C:\\Users\\harle\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\harle\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\harle\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",

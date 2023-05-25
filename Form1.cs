@@ -1,20 +1,8 @@
-using IP2Location;
-using PacketDotNet;
-using SharpPcap;
-using System.Net;
-using System;
-using System.Net.Http;
+using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
-using GMap.NET;
-using IP2Location;
-using GMap.NET.WindowsForms.ToolTips;
-using Microsoft.Maui.Controls.Maps;
-using System.Xml.Linq;
-using Microsoft.Maui.Maps;
-using System.Text;
-using System.ComponentModel;
-using System.Linq;
+using PacketDotNet;
+using SharpPcap;
 
 namespace NetworkMapperForms
 {
@@ -154,11 +142,15 @@ namespace NetworkMapperForms
                 GMarkerGoogleType.blue_pushpin);
             markers.Markers.Add(marker);
             gmap.Overlays.Add(markers);
-            marker.Tag = externalIpString;
+            marker.Tag = externalIpString + "(Your IP)";
 
         }
 
-        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        // Create gmap overlays for markers
+        GMapOverlay outboundMarkers = new GMapOverlay("outboundMarkers");
+        GMapOverlay inboundMarkers = new GMapOverlay("inboundMarkers");
+
+        public void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             pcap.capturePackets(_device, StringOutputType.Normal,
                 (output) =>
@@ -174,13 +166,13 @@ namespace NetworkMapperForms
                         this.Refresh();
                     });
 
+
                     // Add outbound markers on the UI thread
                     foreach (var key in State.OutboundConnections.Keys)
                     {
                         if (State.OutboundConnections[key].Marked == false)
                         {
                             var outbound = State.OutboundConnections[key];
-                            GMapOverlay outboundMarkers = new GMapOverlay("outboundMarkers");
                             GMapMarker outboundMarker = new GMarkerGoogle(
                                 new PointLatLng(float.Parse(outbound.Lat), float.Parse(outbound.Long)),
                                 GMarkerGoogleType.red_pushpin);
@@ -225,7 +217,6 @@ namespace NetworkMapperForms
                         if (State.InboundConnections[key].Marked == false)
                         {
                             var inbound = State.InboundConnections[key];
-                            GMapOverlay inboundMarkers = new GMapOverlay("inboundMarkers");
                             GMapMarker inboundMarker = new GMarkerGoogle(
                                 new PointLatLng(float.Parse(inbound.Lat), float.Parse(inbound.Long)),
                                 GMarkerGoogleType.green_pushpin);
@@ -247,12 +238,12 @@ namespace NetworkMapperForms
                                     GMapMarker clickedMarker = marker;
                                     if (clickedMarker != null)
                                     {
-                                        // Store the clicked ip address
+                                        // Store the clicked marker's ip address
                                         clickedIPAddress = clickedMarker.Tag.ToString();
 
                                         SelectedIp.Invoke((MethodInvoker)delegate
                                         {
-                                            // Set the label3 text to the selected ip
+                                            // Set the SelectedIp text to the clicked marker's ip address
                                             SelectedIp.Text = "Selected IP: " + clickedIPAddress;
                                         });
                                     }
@@ -279,11 +270,24 @@ namespace NetworkMapperForms
         private void BlockButton_Click(object sender, EventArgs e)
         {
             // Add method to block clickedIpAddress
+            // Dont allow user to block own ip address
+            // Filter for externalIpString
         }
 
         private void UnblockButton_Click(object sender, EventArgs e)
         {
             // Add method to unblock all blocked Ip Addresses
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            outboundMarkers.Clear();
+            inboundMarkers.Clear();
+        }
+
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }

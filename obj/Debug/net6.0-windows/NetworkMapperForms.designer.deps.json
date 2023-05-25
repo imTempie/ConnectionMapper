@@ -71,25 +71,6 @@
         }
       },
       "Microsoft.CSharp/4.7.0": {},
-      "Microsoft.Maui.Controls.Maps/7.0.81": {
-        "dependencies": {
-          "Microsoft.Maui.Maps": "7.0.81"
-        },
-        "runtime": {
-          "lib/netstandard2.1/Microsoft.Maui.Controls.Maps.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "7.0.70.11"
-          }
-        }
-      },
-      "Microsoft.Maui.Maps/7.0.81": {
-        "runtime": {
-          "lib/netstandard2.1/Microsoft.Maui.Maps.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "7.0.70.11"
-          }
-        }
-      },
       "Microsoft.NETCore.Platforms/3.1.0": {},
       "Microsoft.Win32.Registry/4.7.0": {
         "dependencies": {
@@ -496,20 +477,6 @@
       "sha512": "sha512-pTj+D3uJWyN3My70i2Hqo+OXixq3Os2D1nJ2x92FFo6sk8fYS1m1WLNTs0Dc1uPaViH0YvEEwvzddQ7y4rhXmA==",
       "path": "microsoft.csharp/4.7.0",
       "hashPath": "microsoft.csharp.4.7.0.nupkg.sha512"
-    },
-    "Microsoft.Maui.Controls.Maps/7.0.81": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-BLTnxgf7ciOtW8FkgFOIpeCek8p/WtCutgMmOHr58P9FFN9YnKd5LSIPnSHDIQQQg4LgBUIlsMht9Ln5lexHsQ==",
-      "path": "microsoft.maui.controls.maps/7.0.81",
-      "hashPath": "microsoft.maui.controls.maps.7.0.81.nupkg.sha512"
-    },
-    "Microsoft.Maui.Maps/7.0.81": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-satGhXDrYGym5fkhAZC1JPIjRojuBvnz+ba/6Sd+4TeZ6/j4BZDSxvv5jzha6+BR5yQ/5+t9yWMvNuqCYc+V7w==",
-      "path": "microsoft.maui.maps/7.0.81",
-      "hashPath": "microsoft.maui.maps.7.0.81.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/3.1.0": {
       "type": "package",
