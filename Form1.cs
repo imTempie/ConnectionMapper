@@ -9,7 +9,8 @@ namespace NetworkMapperForms
 
     public partial class Form1 : Form
     {
-        static string clickedIPAddress;
+        private static string clickedIPAddress;
+        private static string externalIpAddress = PCap.GetExtIp();
         private static PCap pcap = new PCap();
         private static ILiveDevice? _device;
 
@@ -18,9 +19,21 @@ namespace NetworkMapperForms
         int movX;
         int movY;
 
+
         public Form1()
         {
             InitializeComponent();
+
+            // Add all the buttons tooltip information
+            toolTip1.SetToolTip(BlockButton, "Block the selected IP");
+            toolTip1.SetToolTip(UnblockButton, "Unblock all blocked IPs");
+            toolTip1.SetToolTip(exitBtn, "Exit the application");
+            toolTip1.SetToolTip(MinimiseBtn, "Minimise the application");
+            toolTip1.SetToolTip(capturePacketsBtn, "Start capturing packets on the selected device");
+            toolTip1.SetToolTip(stopCapBtn, "Stop capturing packets");
+            toolTip1.SetToolTip(clearMarkerButton, "Remove all the current markers from the map");
+            toolTip1.SetToolTip(MinimiseBtn, "Minimise the application");
+            toolTip1.SetToolTip(refreshDevices, "Refresh the network device list");
 
             // Clear devices from list
             captureDevice.Items.Clear();
@@ -37,6 +50,7 @@ namespace NetworkMapperForms
         }
         private void capturePacketsBtn_Click(object sender, EventArgs e)
         {
+            // If the background worker is already running stop it
             backgroundWorker1.CancelAsync();
 
             if (captureDevice.SelectedIndex < 0)
@@ -44,11 +58,15 @@ namespace NetworkMapperForms
                 return;
             }
 
+            // Set the devices according to what the user has input in the selection box
             var devices = CaptureDeviceList.Instance;
             var deviceIndex = captureDevice.SelectedIndex;
             _device = devices[deviceIndex];
+
+            // Output into the info box what device is being used
             resultBox.Text += $"{_device.Description}";
 
+            // Run the background worker
             backgroundWorker1.RunWorkerAsync();
         }
 
@@ -92,6 +110,7 @@ namespace NetworkMapperForms
 
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
+            // Sets the window position to the mouse location for dragging the window when the panel has been left clicked
             if (mov == 1)
             {
                 this.SetDesktopLocation(MousePosition.X - movX, MousePosition.Y - movY);
@@ -117,15 +136,23 @@ namespace NetworkMapperForms
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // On the load of the form, set the map provider
             gmap.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance;
             GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerOnly;
         }
 
         private void gMapControl1_Load(object sender, EventArgs e)
         {
+            // On the load of the map, set the position to Ipswich
             gmap.SetPositionByKeywords("Ipswich, England");
+
+            // Dont show the cross mark in the centre of the map
             gmap.ShowCenter = false;
+
+            // Set Zoom to 1
             gmap.Zoom = 1;
+
+            // Load the IPLocation DB
             var ipv4Geo = new IP2Location.Component();
             ipv4Geo.Open(@".\db\IP2LOCATION-LITE-DB5.BIN\IP2LOCATION-LITE-DB5.BIN");
 
@@ -142,6 +169,7 @@ namespace NetworkMapperForms
                 GMarkerGoogleType.blue_pushpin);
             markers.Markers.Add(marker);
             gmap.Overlays.Add(markers);
+            // Add a tag to the local marker, letting you know its your IP
             marker.Tag = externalIpString + "(Your IP)";
 
         }
@@ -206,7 +234,7 @@ namespace NetworkMapperForms
                                 };
                             });
 
-
+                            // Set the Marked State to true
                             State.OutboundConnections[key].Marked = true;
                         }
                     }
@@ -250,6 +278,7 @@ namespace NetworkMapperForms
                                 };
                             });
 
+                            // Set the marked state to true
                             State.InboundConnections[key].Marked = true;
                         }
                     }
@@ -267,11 +296,40 @@ namespace NetworkMapperForms
 
         }
 
+        public static async Task AddDelay()
+        {
+            await Task.Delay(1000);
+        }
+
+
         private void BlockButton_Click(object sender, EventArgs e)
         {
             // Add method to block clickedIpAddress
             // Dont allow user to block own ip address
             // Filter for externalIpString
+
+            if (clickedIPAddress.Contains(externalIpAddress))
+            {
+                // Do nothing
+                //SelectedIp.Invoke((MethodInvoker)delegate
+                //{
+                //    SelectedIp.Text = "You Can't Block Your Own IP";
+                //    Thread.Sleep(100);
+                //    SelectedIp.Text = "Selected IP: " + clickedIPAddress;
+                //});
+                ErrorLabel.Text = "You Can't Block Your Own IP";
+                Task.Run(async delegate
+                {
+                    await AddDelay();
+                }).Wait();
+                ErrorLabel.Text = "";
+            }
+            else
+            {
+                // Block the selected IP address
+            }
+
+
         }
 
         private void UnblockButton_Click(object sender, EventArgs e)
@@ -287,7 +345,7 @@ namespace NetworkMapperForms
             foreach (var key in State.InboundConnections.Keys)
             {
                 State.InboundConnections[key].Marked = false;
-                //if (State.InboundConnections[key].LastSeen > DateTime.Now.AddSeconds(-5))
+                //if (State.InboundConnections[key].LastSeen < DateTime.Now.AddSeconds(-5))
                 //{
 
                 //}

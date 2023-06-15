@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             capturePacketsBtn = new Button();
             captureDevice = new ComboBox();
             refreshDevices = new Button();
@@ -35,7 +36,7 @@
             stopCapBtn = new Button();
             exitBtn = new Button();
             panel1 = new Panel();
-            button1 = new Button();
+            MinimiseBtn = new Button();
             label1 = new Label();
             gmap = new GMap.NET.WindowsForms.GMapControl();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
@@ -44,6 +45,8 @@
             BlockButton = new Button();
             UnblockButton = new Button();
             clearMarkerButton = new Button();
+            toolTip1 = new ToolTip(components);
+            ErrorLabel = new Label();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -121,7 +124,7 @@
             // 
             exitBtn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             exitBtn.AutoSize = true;
-            exitBtn.BackColor = Color.FromArgb(64, 64, 64);
+            exitBtn.BackColor = Color.FromArgb(192, 0, 0);
             exitBtn.FlatStyle = FlatStyle.Flat;
             exitBtn.ForeColor = Color.White;
             exitBtn.Location = new Point(1336, 12);
@@ -136,7 +139,7 @@
             // 
             panel1.AutoSize = true;
             panel1.BackColor = Color.FromArgb(64, 64, 64);
-            panel1.Controls.Add(button1);
+            panel1.Controls.Add(MinimiseBtn);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(exitBtn);
             panel1.ForeColor = Color.White;
@@ -148,20 +151,20 @@
             panel1.MouseMove += panel1_MouseMove;
             panel1.MouseUp += panel1_MouseUp;
             // 
-            // button1
+            // MinimiseBtn
             // 
-            button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button1.AutoSize = true;
-            button1.BackColor = Color.FromArgb(64, 64, 64);
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(1233, 12);
-            button1.Name = "button1";
-            button1.Size = new Size(97, 35);
-            button1.TabIndex = 14;
-            button1.Text = "Minimise";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click_2;
+            MinimiseBtn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            MinimiseBtn.AutoSize = true;
+            MinimiseBtn.BackColor = Color.FromArgb(64, 64, 64);
+            MinimiseBtn.FlatStyle = FlatStyle.Flat;
+            MinimiseBtn.ForeColor = Color.White;
+            MinimiseBtn.Location = new Point(1233, 12);
+            MinimiseBtn.Name = "MinimiseBtn";
+            MinimiseBtn.Size = new Size(97, 35);
+            MinimiseBtn.TabIndex = 14;
+            MinimiseBtn.Text = "Minimise";
+            MinimiseBtn.UseVisualStyleBackColor = false;
+            MinimiseBtn.Click += button1_Click_2;
             // 
             // label1
             // 
@@ -233,6 +236,8 @@
             // 
             // BlockButton
             // 
+            BlockButton.AccessibleDescription = "";
+            BlockButton.AccessibleName = "";
             BlockButton.BackColor = Color.FromArgb(192, 0, 0);
             BlockButton.FlatAppearance.BorderColor = Color.White;
             BlockButton.FlatStyle = FlatStyle.Flat;
@@ -274,12 +279,21 @@
             clearMarkerButton.UseVisualStyleBackColor = false;
             clearMarkerButton.Click += button1_Click_1;
             // 
+            // ErrorLabel
+            // 
+            ErrorLabel.AutoSize = true;
+            ErrorLabel.Location = new Point(700, 84);
+            ErrorLabel.Name = "ErrorLabel";
+            ErrorLabel.Size = new Size(0, 23);
+            ErrorLabel.TabIndex = 14;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.AppWorkspace;
             ClientSize = new Size(1421, 793);
+            Controls.Add(ErrorLabel);
             Controls.Add(clearMarkerButton);
             Controls.Add(UnblockButton);
             Controls.Add(BlockButton);
@@ -321,6 +335,8 @@
         private Button BlockButton;
         private Button UnblockButton;
         private Button clearMarkerButton;
-        private Button button1;
+        private Button MinimiseBtn;
+        private ToolTip toolTip1;
+        private Label ErrorLabel;
     }
 }
